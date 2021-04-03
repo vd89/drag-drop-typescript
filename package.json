@@ -1,0 +1,17 @@
+{
+  "name": "drag-drop-typescript",
+  "version": "1.0.0",
+  "main": "app.js",
+  "repository": "git@github.com:vd89/drag-drop-typescript.git",
+  "author": "vd89 <dixitvora@gmail.com>",
+  "license": "MIT",
+  "description": "Drag and drop project to learn typescript ",
+  "keywords": [
+    "typescript",
+    "drag-drop"
+  ],
+  "devDependencies": {
+    "lite-server": "^2.6.1",
+    "typescript": "^4.2.3"
+  }
+}
