@@ -13,5 +13,8 @@
   "devDependencies": {
     "lite-server": "^2.6.1",
     "typescript": "^4.2.3"
+  },
+  "scripts": {
+    "start": "lite-server"
   }
 }
