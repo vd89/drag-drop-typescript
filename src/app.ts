@@ -37,10 +37,35 @@ class ProjectInput {
   private attach() {
     this.hostElement.insertAdjacentElement('afterbegin', this.element);
   }
+  // @autoBind
+  private gatherUserInput(): [string, string, number] | void {
+    const enteredTitle = this.titleInpElement.value;
+    const enteredDesc = this.descInpElement.value;
+    const enteredPeople = this.peopleInpElement.value;
+    if (enteredTitle.trim().length === 0 || enteredDesc.trim().length === 0 || enteredPeople.trim().length === 0) {
+      alert('Invalid input, please try again!!!!');
+      return;
+    } else {
+      return [enteredTitle, enteredDesc, +enteredPeople];
+    }
+  }
+
+  private clearInput() {
+    this.titleInpElement.value = '';
+    this.descInpElement.value = '';
+    this.peopleInpElement.value = '';
+  }
+
   @autoBind
   private submitHandler(e: Event) {
     e.preventDefault();
-    console.log(this.titleInpElement.value);
+    const userInput = this.gatherUserInput();
+    console.log(userInput);
+    if (Array.isArray(userInput)) {
+      const [title, desc, people] = userInput;
+      console.log(title, desc, people);
+      this.clearInput();
+    }
   }
   private configure() {
     this.element.addEventListener('submit', this.submitHandler);
