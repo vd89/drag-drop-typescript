@@ -1,3 +1,32 @@
+// Validation
+interface ValidateAble {
+  value: string | number;
+  required: boolean;
+  minLength?: number;
+  maxLength?: number;
+  min?: number;
+  max?: number;
+}
+function validate(validateInput: ValidateAble) {
+  let isValid = true;
+  if (validateInput.required) {
+    isValid = isValid && validateInput.value.toString().trim().length !== 0;
+  }
+  if (validateInput.minLength != null && typeof validateInput.value === 'string') {
+    isValid = isValid && validateInput.value.length >= validateInput.minLength;
+  }
+  if (validateInput.maxLength != null && typeof validateInput.value === 'string') {
+    isValid = isValid && validateInput.value.length <= validateInput.maxLength;
+  }
+  if (validateInput.min != null && typeof validateInput.value === 'number') {
+    isValid = isValid && validateInput.value >= validateInput.min;
+  }
+  if (validateInput.max != null && typeof validateInput.value === 'number') {
+    isValid = isValid && validateInput.value <= validateInput.max;
+  }
+  return isValid;
+}
+
 // AutoBind decorator
 function autoBind(_: any, _2: string, descriptor: PropertyDescriptor) {
   const originalMethod = descriptor.value;
@@ -42,7 +71,24 @@ class ProjectInput {
     const enteredTitle = this.titleInpElement.value;
     const enteredDesc = this.descInpElement.value;
     const enteredPeople = this.peopleInpElement.value;
-    if (enteredTitle.trim().length === 0 || enteredDesc.trim().length === 0 || enteredPeople.trim().length === 0) {
+
+    const titleValidateable: ValidateAble = {
+      value: enteredTitle,
+      required: true,
+    };
+    const descValidateable: ValidateAble = {
+      value: enteredDesc,
+      required: true,
+      minLength: 5,
+    };
+    const peopleValidateable: ValidateAble = {
+      value: +enteredPeople,
+      required: true,
+      min: 1,
+      max: 5,
+    };
+
+    if (!validate(titleValidateable) || !validate(descValidateable) || !validate(peopleValidateable)) {
       alert('Invalid input, please try again!!!!');
       return;
     } else {
@@ -60,7 +106,6 @@ class ProjectInput {
   private submitHandler(e: Event) {
     e.preventDefault();
     const userInput = this.gatherUserInput();
-    console.log(userInput);
     if (Array.isArray(userInput)) {
       const [title, desc, people] = userInput;
       console.log(title, desc, people);
